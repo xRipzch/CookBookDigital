@@ -1,22 +1,28 @@
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Scanner;
+import java.util.Stack;
 
 public class Recipes {
-    Scanner in = new Scanner(System.in);
-    // Todo Lav en liste som kan tage i mod opskrifter og en liste hvor man kan søge
-    // Todo Find ud af hvor mange klasser som er nødvendig
+    private List<String> shoppingList;
 
-    private ArrayList<Recipes> recipeList = new ArrayList<>();
+    Scanner in = new Scanner(System.in);
+
+    private ArrayList<Recipes> recipeList;
+
     private String name;
 
     public Recipes(String name) {
         this.name = name;
-        initializeRecipes();
+       // this.recipeList = new ArrayList<>();
+
+
+
     }
 
-    private void initializeRecipes() {
-        recipeList.add(new Recipes("Oat meal"));
-        recipeList.add(new Recipes("Corn flakes"));
+    public void initializeRecipes() {
+        recipeList.add(new Recipes("Oat_meal"));
+        recipeList.add(new Recipes("Corn_flakes"));
         recipeList.add(new Recipes("Sandwich"));
         recipeList.add(new Recipes("Fitness dish"));
         recipeList.add(new Recipes("Bolognesse"));
@@ -28,11 +34,10 @@ public class Recipes {
 
     public Recipes() {
 
+        shoppingList = new ArrayList<>();
+        this.recipeList = new ArrayList<>();
     }
 
-    public String getName() {
-        return name;
-    }
 
     public Recipes(String name, String ingredients, int estimatedTime) {
     }
@@ -107,42 +112,51 @@ public class Recipes {
 
     public void printFitnessDish(String name, String ingredient, int estimated) {
         System.out.println(name + "\n" + ingredient + "\n" + estimated);
+        wouldYouLikeToAddItem();
     }
 
     public void printSandwich(String name, String ingredient, int estimated) {
         System.out.println(name + "\n" + ingredient + "\n" + estimated);
+        wouldYouLikeToAddItem();
     }
 
 
     public void printBolognesse(String name, String ingredient, int estimated) {
         System.out.println(name + "\n" + ingredient + "\n" + estimated);
+        wouldYouLikeToAddItem();
     }
 
     public void printLasagne(String name, String ingredient, int estimated) {
         System.out.println(name + "\n" + ingredient + "\n" + estimated);
+        wouldYouLikeToAddItem();
 
     }
 
     public void printPancakes(String name, String ingredient, int estimated) {
         System.out.println(name + "\n" + ingredient + "\n" + estimated);
+        wouldYouLikeToAddItem();
 
     }
 
     public void printBlueberryCheese(String name, String ingredient, int estimated) {
         System.out.println(name + "\n" + ingredient + "\n" + estimated);
+        wouldYouLikeToAddItem();
     }
 
     public void printCurryMeatBalls(String name, String ingredient, int estimated) {
         System.out.println(name + "\n" + ingredient + "\n" + estimated);
+        wouldYouLikeToAddItem();
 
     }
 
     public void printOatMeal(String name, String ingredient, int estimated) {
         System.out.println(name + "\n" + ingredient + "\n" + estimated);
+        wouldYouLikeToAddItem();
     }
 
     private void printCornflakes(String name, String ingredient, int estimated) {
         System.out.println(name + "\n" + ingredient + "\n" + estimated);
+        wouldYouLikeToAddItem();
     }
 
     public void breakfastRecipes() {
@@ -178,6 +192,7 @@ public class Recipes {
 
     public void breakfastAction() {
         int i = in.nextInt();
+        in.nextLine();
         switch (i) {
             case 1 -> oatMeal();
             case 2 -> cornFlakes();
@@ -188,6 +203,7 @@ public class Recipes {
 
     public void lunchAction() {
         int i = in.nextInt();
+        in.nextLine();
         switch (i) {
             case 1 -> sandwich();
             case 2 -> fitnessDish();
@@ -199,6 +215,7 @@ public class Recipes {
 
     public void dinnerAction() {
         int i = in.nextInt();
+        in.nextLine();
         switch (i) {
             case 1 -> bolognesse();
             case 2 -> lasagne();
@@ -210,12 +227,32 @@ public class Recipes {
 
     public void dessertAction() {
         int i = in.nextInt();
+        in.nextLine();
         switch (i) {
             case 1 -> pancakes();
             case 2 -> blueberryCheese();
             case 0 -> menuIntro();
             default -> dessertAction();
         }
+    }
+
+    public void wouldYouLikeToAddItem() {
+        System.out.println("Would you like to add an item to your list? Type (y/n)");
+        String yesOrNo = in.nextLine();
+        if (yesOrNo.equalsIgnoreCase("y")) {
+            addItem();
+        }
+        else {
+            menuIntro();
+        }
+    }
+
+    private void addItem() {
+        System.out.println("Please write the item you want added");
+        String item = in.nextLine();
+        System.out.println(item + " has been added to your list");
+        shoppingList.add(item);
+        wouldYouLikeToAddItem();
     }
 
     public void menuIntro() {
@@ -227,6 +264,7 @@ public class Recipes {
         System.out.println("Search after a recipe. Type '5'");
         System.out.println("Create your own recipe. Type '6'");
         System.out.println("Delete one of the recipes. Type '7'");
+        System.out.println("Check you shopping list. Type '8'");
         System.out.println("Exit the recipe book. Type '0'");
         menu();
     }
@@ -240,6 +278,7 @@ public class Recipes {
             case 4 -> dessertRecipes();
             case 5 -> search();
             case 6 -> createRecipe();
+            case 8 -> printShoppingList();
 
 
         }
@@ -266,11 +305,24 @@ public class Recipes {
         String searchTerm = in.next();
         in.nextLine();
         Recipes foundRecipe = searchRecipeByName(searchTerm);
-        if (foundRecipe != null) {
+        if (foundRecipe == null) {
+            System.out.println("Recipe not found.");
+        } else {
             System.out.println("Recipe found:");
             System.out.println(foundRecipe.getName());
-        } else {
-            System.out.println("Recipe not found.");
+        }
+    }
+
+    public String getName() {
+        return name;
+    }
+    public List<String> getShoppinglist() {
+        return this.shoppingList;
+    }
+
+    public void printShoppingList() {
+        for (int i = 0; i < shoppingList.size(); i++) {
+            System.out.println(shoppingList.get(i));
         }
     }
 
@@ -280,5 +332,7 @@ public class Recipes {
                 return recipe;
             }
         }
-        return null;
-    }}
+        return null; // Recipe not found.
+    }
+
+}
