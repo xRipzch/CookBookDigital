@@ -12,6 +12,8 @@ public class Recipes {
 
     private String name;
 
+    private int rating;
+
     public Recipes(String name) {
         this.name = name;
        // this.recipeList = new ArrayList<>();
@@ -265,6 +267,7 @@ public class Recipes {
         System.out.println("Create your own recipe. Type '6'");
         System.out.println("Delete one of the recipes. Type '7'");
         System.out.println("Check you shopping list. Type '8'");
+        System.out.println("Rate a recipe. Type 9");
         System.out.println("Exit the recipe book. Type '0'");
         menu();
     }
@@ -279,10 +282,43 @@ public class Recipes {
             case 5 -> search();
             case 6 -> createRecipe();
             case 8 -> printShoppingList();
+            case 9 -> rateRecipe();
 
 
         }
     }
+    public int getRating() {
+        return rating;
+    }
+
+    public void setRating(int rating) {
+        this.rating = rating;
+    }
+
+    public void rateRecipe(){
+        System.out.println("Type in the name of the recipe you are looking for:");
+        String searchTerm = in.next();
+        in.nextLine();
+        Recipes foundRecipe = searchRecipeByName(searchTerm);
+        if (foundRecipe == null) {
+            System.out.println("Recipe not found.");
+            menuIntro();
+        } else {
+            System.out.println("Recipe found:");
+            System.out.println(foundRecipe.getName());
+            System.out.println("What do you want to rate "+foundRecipe.getName()+"? (from 1 to 10)");
+            int rating = in.nextInt();
+
+            if(rating >= 1 && rating <= 10) {
+                foundRecipe.setRating(rating);
+                System.out.println(foundRecipe.getName() + " has been rated: " + rating);
+            } else {
+                System.out.println("Please provide a valid rating between 1 and 10.");
+            }
+            menuIntro();
+        }
+    }
+
 
     public void createRecipe() {
         System.out.println("Type in the name of the recipe you want to create");
@@ -309,6 +345,7 @@ public class Recipes {
             System.out.println("Recipe not found.");
         } else {
             System.out.println("Recipe found:");
+            System.out.println("Rating "+foundRecipe.getRating());
             System.out.println(foundRecipe.getName());
         }
     }
