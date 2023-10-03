@@ -1,7 +1,6 @@
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
-import java.util.Stack;
 
 public class Recipes {
     private List<String> shoppingList;
@@ -311,10 +310,9 @@ public class Recipes {
         } else {
             System.out.println("Recipe found:");
             System.out.println(foundRecipe.getName());
-            System.out.println("What do you want to rate "+foundRecipe.getName()+"? (from 1 to 10)");
+            System.out.println("What do you want to rate " + foundRecipe.getName() + "? (from 1 to 10)");
             int rating = in.nextInt();
-
-            if(rating >= 1 && rating <= 10) {
+            if (rating >= 1 && rating <= 10) {
                 foundRecipe.setRating(rating);
                 System.out.println(foundRecipe.getName() + " has been rated: " + rating);
             } else {
@@ -323,7 +321,6 @@ public class Recipes {
             menuIntro();
         }
     }
-
 
     public void createRecipe() {
         System.out.println("Type in the name of the recipe you want to create");
