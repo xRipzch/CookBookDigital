@@ -9,14 +9,14 @@ public class Recipes {
     Scanner in = new Scanner(System.in);
 
     private ArrayList<Recipes> recipeList;
+    private List<String> userCreatedRecipes;
 
     private String name;
-
     private int rating;
 
     public Recipes(String name) {
         this.name = name;
-       // this.recipeList = new ArrayList<>();
+        // this.recipeList = new ArrayList<>();
 
 
 
@@ -32,16 +32,22 @@ public class Recipes {
         recipeList.add(new Recipes("Curry Meatballs"));
         recipeList.add(new Recipes("Pancakes"));
         recipeList.add(new Recipes("Blueberry Cheesecake"));
+        getUserCreatedRecipes();
+
+
     }
 
     public Recipes() {
 
         shoppingList = new ArrayList<>();
         this.recipeList = new ArrayList<>();
+        userCreatedRecipes = new ArrayList<>();
     }
 
 
     public Recipes(String name, String ingredients, int estimatedTime) {
+
+
     }
 
 
@@ -256,7 +262,6 @@ public class Recipes {
         shoppingList.add(item);
         wouldYouLikeToAddItem();
     }
-
     public void menuIntro() {
         System.out.println("Hello and welcome to the digital recipe book menu\nWould you like to:\n");
         System.out.println("See breakfast recipes. Type '1'");
@@ -323,32 +328,50 @@ public class Recipes {
     public void createRecipe() {
         System.out.println("Type in the name of the recipe you want to create");
         String name = in.next();
+        userCreatedRecipes.add("Recipe: " + name);
         System.out.println("Type in the ingredients of the recipe you want to create");
         in.nextLine();
         String ingredients = in.next();
+        userCreatedRecipes.add("Ingredients: " + ingredients);
         System.out.println("Type in the estimated time of the recipe you want to create");
         in.nextLine();
-        int estimatedTime = in.nextInt();
-        recipeList.add(new Recipes(name, ingredients, estimatedTime));
+        String estimatedTime = in.nextLine();
+        userCreatedRecipes.add("Estimated time: " + estimatedTime);
         System.out.println("Recipe created");
         System.out.println();
         menuIntro();
 
     }
 
+    public List<String> getUserCreatedRecipes() {
+        return this.userCreatedRecipes;
+    }
+
+
     public void search() {
         System.out.println("Type in the name of the recipe you are looking for:");
         String searchTerm = in.next();
         in.nextLine();
+
+        // First, check the user-created recipes
+        for (String userRecipe : userCreatedRecipes) {
+            if (userRecipe.toLowerCase().contains(searchTerm.toLowerCase())) {
+                System.out.println("User-created Recipe found:");
+                System.out.println(userRecipe);
+                return; // Exit the method if found
+            }
+        }
+
+        // If not found in user-created recipes, check the predefined recipes
         Recipes foundRecipe = searchRecipeByName(searchTerm);
         if (foundRecipe == null) {
             System.out.println("Recipe not found.");
         } else {
-            System.out.println("Recipe found:");
-            System.out.println("Rating "+foundRecipe.getRating());
+            System.out.println("Predefined Recipe found:");
             System.out.println(foundRecipe.getName());
         }
     }
+
 
     public String getName() {
         return name;
@@ -371,5 +394,6 @@ public class Recipes {
         }
         return null; // Recipe not found.
     }
+
 
 }
